@@ -1,0 +1,36 @@
+---
+description: >
+  Analisa propostas usando conselho consultivo de 5 subagents com contexto isolado
+  + presidente consolidador. Trigger para "analisar proposta", "avaliar ideia",
+  "conselho sobre projeto", "review da proposta", "análise de viabilidade",
+  "conselho", "conselheiros", "board review", "o que acham de", ou qualquer pedido
+  de múltiplas perspectivas sobre decisão de negócio/produto/estratégia.
+globs:
+alwaysApply: false
+---
+
+# Conselho de Propostas
+
+Quando o usuário pedir análise de proposta, ideia ou plano:
+
+1. Leia o SKILL.md em `.cursor/skills/conselho-de-propostas/SKILL.md`
+2. Siga o fluxo de execução descrito na skill
+3. Delegue a proposta para os 5 subagents em `.cursor/agents/`:
+   - `conselheiro-contrario` — erros fatais
+   - `conselheiro-arquiteto` — primeiros princípios
+   - `conselheiro-expansivo` — oportunidades adjacentes
+   - `conselheiro-forasteiro` — olho fresco, zero contexto
+   - `conselheiro-executor` — ação imediata, 7 dias
+
+4. Os subagents rodam em paralelo com contexto isolado
+5. Receba os 5 resumos e consolide como presidente do conselho
+6. Produza: análises → painel de tensão → veredito final
+
+## Regras invioláveis
+
+- Cada subagent recebe APENAS a proposta bruta. Sem contexto extra.
+- O Forasteiro NUNCA assume contexto não escrito na proposta.
+- O Executor SEMPRE termina com ação concreta + deadline de 7 dias.
+- O Contrário SEMPRE aponta pelo menos 1 cenário de fracasso total.
+- O Presidente PRESERVA divergências — não finge consenso.
+- O Presidente ESCOLHE um veredicto: PROSSEGUIR / PIVOTAR / INVESTIGAR MAIS / ABANDONAR.
