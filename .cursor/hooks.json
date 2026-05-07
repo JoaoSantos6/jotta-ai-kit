@@ -1,0 +1,16 @@
+{
+  "hooks": [
+    {
+      "event": "file_edited",
+      "match": "question-ms/**",
+      "type": "command",
+      "command": "echo '❌ VIOLAÇÃO: Arquivo do question-ms foi modificado! O serviço PHP é somente leitura.' && exit 1"
+    },
+    {
+      "event": "subagent_finished",
+      "match": "go-generator",
+      "type": "prompt",
+      "prompt": "Verifique se algum arquivo do question-core que NÃO é da nova rota foi modificado. Execute: cd question-core && git diff --name-only. Se encontrar alterações em arquivos de rotas já existentes, reverta-as imediatamente."
+    }
+  ]
+}
