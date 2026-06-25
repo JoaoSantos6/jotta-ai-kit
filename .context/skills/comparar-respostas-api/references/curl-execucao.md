@@ -5,13 +5,16 @@ Regras para montar e executar os comandos `curl` desta skill.
 ## Política por método HTTP
 
 - **GET** → executa automaticamente, sem perguntar.
-- **POST, PUT, PATCH, DELETE, HEAD, OPTIONS, qualquer outro** → **exige permissão explícita** do desenvolvedor antes de rodar.
+- **POST, PUT, PATCH, DELETE, HEAD, OPTIONS, qualquer outro** → **exige permissão explícita** do
+  desenvolvedor antes de rodar.
 
-Para métodos não-GET, mostre os dois comandos curl que você pretende rodar (mascarando tokens/segredos se houver) e pergunte algo como:
+Para métodos não-GET, mostre os dois comandos curl que você pretende rodar (mascarando
+tokens/segredos se houver) e pergunte algo como:
 
 > Vou executar essas duas requisições `<METODO>`. Posso seguir?
 
-Aguarde confirmação. Não execute em paralelo "preventivamente". Se um desses métodos for destrutivo (DELETE, ou POST que cria/altera recurso), reforce o aviso de efeito colateral.
+Aguarde confirmação. Não execute em paralelo "preventivamente". Se um desses métodos for
+destrutivo (DELETE, ou POST que cria/altera recurso), reforce o aviso de efeito colateral.
 
 ## Montagem do comando
 
@@ -40,18 +43,21 @@ Flags importantes:
 
 ## Arquivos temporários
 
-Use caminhos previsíveis e distintos para as duas respostas, por exemplo:
+Use caminhos previsíveis e distintos para as duas respostas:
 
 - Linux/macOS / bash no Windows: `/tmp/cmp_a.body` e `/tmp/cmp_b.body`
-- Se `/tmp` não existir, caia para o diretório de trabalho com nomes únicos.
+- Se `/tmp` não existir, use o diretório de trabalho com nomes únicos.
 
 Após a comparação, é OK deixar os arquivos para inspeção posterior.
 
 ## Tratamento de erro / timeout
 
-- `curl` retornando código != 0 (ex: `28` para timeout) → reporte qual requisição falhou e por quê. Não retente.
+- `curl` retornando código != 0 (ex: `28` para timeout) → reporte qual requisição falhou e por quê.
+  Não retente.
 - Status HTTP 5xx **não** é erro de execução — o curl roda OK, o status entra na comparação normal.
 
 ## Segredos em headers
 
-Se algum header contém token/segredo (`Authorization: Bearer ...`, cookies, etc.), ao **exibir** o comando para o desenvolvedor (no caso de pedir permissão), mascare como `Bearer ***`. Na execução real, use o valor cheio.
+Se algum header contém token/segredo (`Authorization: Bearer ...`, cookies, etc.), ao **exibir**
+o comando para o desenvolvedor (no caso de pedir permissão), mascare como `Bearer ***`. Na
+execução real, use o valor cheio.

@@ -1,12 +1,14 @@
-# Regras de Comparação
+# Regras de Comparação — Fallback sem Python
 
-Como decidir se duas respostas são "iguais".
+Este arquivo descreve como comparar manualmente se o script `cmp_api.py` não estiver disponível
+ou falhar. Em condições normais, use o script (veja `references/script-python.md`).
 
 ## Status code
 
 Comparação direta de inteiros. `200 == 200` → ok. `200 != 201` → divergência.
 
-Status diferente já marca o resultado como divergente, mas **continue** comparando o body para mostrar o quadro completo ao desenvolvedor.
+Status diferente já marca o resultado como divergente, mas **continue** comparando o body para
+mostrar o quadro completo ao desenvolvedor.
 
 ## Body
 
@@ -61,12 +63,11 @@ Exemplos:
 | `{"a":1,"b":2}` | `{"a":1}` | `b` faltando em B |
 | `null` | `""` | diferentes (tipo) |
 
-## Implementação prática
+## Fallback de shell (sem Python e sem Node)
 
-Em ordem de preferência:
+Use `jq -S . arquivo > arquivo.norm` para normalizar ordem de chaves (jq preserva ordem de
+array), depois `diff arquivo_a.norm arquivo_b.norm`. Reporte as linhas do diff traduzindo,
+na medida do possível, para caminhos JSON.
 
-1. **Python disponível**: script com `json.load` e diff recursivo manual (ou `deepdiff` se já estiver instalado).
-2. **Node disponível**: `JSON.parse` + diff recursivo manual.
-3. **Só shell**: `jq -S . arquivo > arquivo.norm` para normalizar ordem de chaves (jq preserva ordem de array), depois `diff arquivo_a.norm arquivo_b.norm`. Reporte as linhas do diff traduzindo, na medida do possível, para caminhos JSON.
-
-Nunca compare bodies JSON com `diff` textual sem antes normalizar a ordem de chaves de objetos — produz falso positivo.
+Nunca compare bodies JSON com `diff` textual sem antes normalizar a ordem de chaves de
+objetos — produz falso positivo.
