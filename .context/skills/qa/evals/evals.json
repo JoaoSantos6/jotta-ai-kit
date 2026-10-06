@@ -1,0 +1,110 @@
+{
+  "skill_name": "qa",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Adicionei o campo prazoMeses na resposta de simulação do serviço de simulação.",
+      "expected_output": "Aciona qa-pact (critério A). Identifica os consumidores da simulação e, se algum ler prazoMeses, adiciona o campo ao pact desse consumidor com matcher integer. Não aciona qa-oraculo, a menos que algum teste tenha sido alterado.",
+      "expectations": [
+        "A skill qa classifica a mudança como critério A e aciona qa-pact",
+        "O campo só entra no contrato do consumidor que realmente o lê, com arquivo:linha",
+        "prazoMeses usa o matcher integer, não valor exato",
+        "Termina com o Relatório de QA"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Escreve um teste para o cálculo de parcela.",
+      "expected_output": "Aciona qa-oraculo. Procura a fonte de autoridade antes de ler a implementação. Sem fonte, pergunta ao dev ou marca o oráculo como regressão. Propõe relações metamórficas e pede confirmação.",
+      "expectations": [
+        "Busca critério de aceite ou regra documentada antes de abrir a função de parcela",
+        "Nenhum assert usa valor copiado da saída atual sem marcação de regressão",
+        "Relações metamórficas propostas ficam pendentes até o dev confirmar",
+        "O relatório tem a tabela comportamento | fonte | tipo | assert",
+        "Pelo menos uma mutação plausível é descrita para os asserts principais"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Corrige esse teste que está falhando: TestCalculaParcela espera 251.37 e o código devolve 251.36.",
+      "expected_output": "Aciona qa-oraculo, passo 7. Checa a fonte de autoridade antes de mexer no assert. Se a fonte confirmar 251.37, reporta bug no código. Se não houver fonte, pergunta. Não muda o assert para 251.36 por conta própria.",
+      "expectations": [
+        "Não altera o valor esperado sem citar uma fonte de autoridade",
+        "Considera a hipótese de bug no código (arredondamento)",
+        "Sem fonte, pergunta ao dev em vez de escolher um lado",
+        "Não remove o teste nem o marca como skip"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Renomeia taxaJuros para taxa no serviço de ofertas.",
+      "expected_output": "Aciona qa-pact, passo 7. Aponta os consumidores que leem taxaJuros (pacts locais, broker ou busca por código) e propõe a mudança em duas etapas: adicionar taxa mantendo taxaJuros, migrar os consumidores e só então remover o campo antigo.",
+      "expectations": [
+        "Lista os consumidores afetados, ou diz como encontrá-los se não houver broker",
+        "Propõe a mudança em duas etapas ou o versionamento",
+        "Não apaga nem afrouxa interações dos contratos existentes",
+        "Não verifica o valor da taxa no contrato"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Muda o texto do botão 'Continuar' para 'Avançar' na tela de oferta.",
+      "expected_output": "Nenhuma skill de QA é acionada. Responde em uma linha que é só texto de UI, sem mudança de formato de dados nem de regra.",
+      "expectations": [
+        "Não aciona qa-pact",
+        "Não aciona qa-oraculo",
+        "Explica em uma linha por que nenhuma skill se aplica"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "O serviço de pedidos agora publica o evento pedido-criado no Kinesis com o campo parceiro. Cria o contrato com o serviço de notificações.",
+      "expected_output": "Aciona qa-pact com message pact. Pacticipants com sufixo -kinesis. O consumidor chama o handler real e o provedor gera a mensagem pela função de produção.",
+      "expectations": [
+        "Os pacticipants são pedidos-kinesis e notificacoes-kinesis, ou os nomes reais confirmados",
+        "O teste do consumidor chama o handler real do evento",
+        "A verificação do provedor usa a função real de montagem, sem JSON escrito à mão",
+        "Só entram os campos lidos pelo consumidor"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Quero que o contrato Pact garanta que a taxa da oferta do BANCO_X seja 1,99%.",
+      "expected_output": "Aciona qa-pact, que explica que Pact verifica formato (decimal) e encaminha o valor ao qa-oraculo, que pede a fonte de autoridade da taxa.",
+      "expectations": [
+        "O contrato mantém a taxa com matcher decimal",
+        "Encaminha a verificação do valor ao qa-oraculo",
+        "Não registra 1,99% como regra sem fonte e dono"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Adicionei a pergunta obrigatória de renda para o parceiro BANCO_Y no BFF e ajustei os testes.",
+      "expected_output": "Aciona as duas skills: primeiro qa-pact (o formato da lista de perguntas BFF → backend, com eachLike), depois qa-oraculo (os testes da obrigatoriedade, com erro específico, e a fonte na especificação do parceiro).",
+      "expectations": [
+        "Ordem: qa-pact antes de qa-oraculo",
+        "A lista de perguntas usa eachLike",
+        "O teste de pergunta obrigatória sem resposta verifica o erro específico",
+        "Pede ou cita a especificação do parceiro como fonte"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "A verificação Pact do provedor de ofertas está quebrando no CI, remove a interação do bff pra destravar o deploy.",
+      "expected_output": "Recusa remover a interação. Identifica o campo e o consumidor quebrados e propõe corrigir o provedor ou negociar a mudança com o consumidor.",
+      "expectations": [
+        "Não remove nem afrouxa a interação",
+        "Identifica a interação, o campo e o consumidor afetados",
+        "Propõe as duas saídas do passo 7"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Atualiza o README com instruções de setup local.",
+      "expected_output": "Nenhuma skill de QA é acionada.",
+      "expectations": [
+        "Não aciona skills de QA"
+      ]
+    }
+  ]
+}
