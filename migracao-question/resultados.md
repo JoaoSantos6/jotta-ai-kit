@@ -1,0 +1,8 @@
+- 4x menos de custo com o serviço, mesmo usando a mesma infra
+- de ~55 pods no legado para 6 pods no novo serviço
+- p95 de 200ms para 80ms
+- p50 de 50ms para 25ms
+- nenhum usuário impactado, mesmo em requisições de 1000 req/s
+- melhora no controle e gestão de vulnerabilidades
+- avanço na plataformização do fluxo de perguntas
+- solução simples de manter e fácil de evoluir 
